@@ -1,33 +1,35 @@
-# Build an AI Agent from Scratch Workshop
+# AI Agent from Scratch🤖
 
-- Watch the workshop on [Frontend Masters](https://frontendmasters.com/workshops/build-ai-agent/). 
-- View the [course notes](https://clumsy-humor-894.notion.site/Agent-from-scratch-13554fed51a380749554c44aa8989406?pvs=4)
+## About the Project🚀
+This project demonstrates how to build an AI agent from scratch using TypeScript. The application interacts with OpenAI's API, showcasing the fundamentals of AI-driven development.  
 
-## Setup Instructions
+## Features 
+- AI agent capable of interacting with OpenAI APIs.  
+- Modular code structure for extensibility.  
+- Uses modern JavaScript/TypeScript for development.  
 
-This repo requires **Node.js version 20+** or **bun v1.0.20**.
+## Getting Started  
 
-The `main` branch contains the final application. To code along with the workshop, checkout the `step/1` branch. You will also need an [API Key from OpenAI](https://platform.openai.com/settings/organization/api-keys).
+### Prerequisites  
+- **Node.js version 20+** or **bun v1.0.20**.  
+- An [API Key from OpenAI](https://platform.openai.com/settings/organization/api-keys).  
+
+### Installation  
+1. Clone the repository:  
+```bash
+   git clone https://github.com/mihirWeb/AI-Agent.git
+```   
+2. Install dependencies:
 
 ```bash
-git clone https://github.com/Hendrixer/agent-from-scratch.git
-cd agent-from-scratch
-git checkout step/1
-npm install # or bun install
-```
-
-To run the project:
+npm install  
+# or  
+bun install
+``` 
+3. Running the Project
+To start the application, run:
 
 ```bash
-npm start
-# or
+npm start  
+# or  
 bun run index.ts
-```
-
-## OpenAI API Key
-
-Create an [API Key from OpenAI](https://platform.openai.com/settings/organization/api-keys) and save it in a `.env` file:
-
-```
-OPENAI_API_KEY='YOUR_API_KEY'
-```
