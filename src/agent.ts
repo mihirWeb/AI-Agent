@@ -14,6 +14,7 @@ export const runAgent = async({
     const loader = showLoader('🤔')
     await addMessages([{role: 'user', content: userMessage}]);
 
+    while(true) {
     const history = await getMessages();
 
     const response = await runLLM({messages: history, tools});
@@ -23,16 +24,20 @@ export const runAgent = async({
 
     await addMessages([response]);
 
-    if((response.tool_calls)){
+    if(response.content){
+        loader.stop();
+        logMessage(response);
+        return getMessages()
+    }
+
+    if(response.tool_calls){
         const toolCall = response.tool_calls[0];
+        logMessage(response);
         loader.update(`executing ${toolCall.function.name}`);
         const toolResponse = await runTool(toolCall, userMessage);
 
         await saveToolResponse(toolCall.id, toolResponse);
     } 
-
-    loader.stop();
-    logMessage(response);
-    return getMessages;
+}
 
 }
