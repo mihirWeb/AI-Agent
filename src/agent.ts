@@ -1,5 +1,6 @@
 import { runLLM } from "./llm";
-import { addMessages, getDb, getMessages } from "./memory";
+import { addMessages, getDb, getMessages, saveToolResponse } from "./memory";
+import { runTool } from "./toolRunner";
 import { logMessage, showLoader } from "./ui";
 
 export const runAgent = async({
@@ -16,13 +17,19 @@ export const runAgent = async({
     const history = await getMessages();
 
     const response = await runLLM({messages: history, tools});
+    // this response will decide whether to run the tool or not
+    // response.tool_calls = true; if tool is required
+    // response.content = true; if tool is not required then we can throw the op directly
 
-    if((response.tool_calls){
-        console.log("whole response: ", response);
-        console.log("tool calls: ", response.tool_calls)
-    }
+    await addMessages([response]);
 
-    await addMessages([response]) 
+    if((response.tool_calls)){
+        const toolCall = response.tool_calls[0];
+        loader.update(`executing ${toolCall.function.name}`);
+        const toolResponse = await runTool(toolCall, userMessage);
+
+        await saveToolResponse(toolCall.id, toolResponse);
+    } 
 
     loader.stop();
     logMessage(response);
