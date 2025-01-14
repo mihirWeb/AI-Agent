@@ -1,6 +1,7 @@
 import type { AIMessage } from '../types'
 import { openai } from './ai'
 import { zodFunction} from 'openai/helpers/zod'
+import { systemPrompt } from './systemPrompts'
 
 
 export const runLLM = async ({
@@ -19,7 +20,7 @@ export const runLLM = async ({
 
   const response = await openai.chat.completions.create({ // a method from the OpenAI SDK to generate response from input prompt
     model,
-    messages,
+    messages: [{role: 'system', content: systemPrompt}, ...messages],
     tools: formattedTools,
     tool_choice: 'auto', // for beginners put it to auto to figure ai what tool to use
     parallel_tool_calls: false, // one tool at a time

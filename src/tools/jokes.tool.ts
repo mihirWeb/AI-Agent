@@ -12,7 +12,7 @@ export const jokeToolDefination = {
 type Args = z.infer<typeof jokeToolDefination.parameters>
 
 // actual tool function logic
-export const getJokeTool: ToolFn<Args, String> = async({ toolArgs }) => {
+export const jokes: ToolFn<Args, String> = async({ toolArgs }) => {
     const response = await fetch('https://icanhazdadjoke.com/', {
         method: 'GET',
         headers: {

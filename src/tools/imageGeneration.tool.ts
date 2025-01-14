@@ -3,6 +3,8 @@ import type { ToolFn} from '../../types';
 import fetch from 'node-fetch';
 import fs from "fs";
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 export const imageGeneratorDefinition = {
     name: 'image_generator',
@@ -32,14 +34,14 @@ export const imageGenerator: ToolFn<Args, string> = async ({ toolArgs }) => {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
   
-    const blob = await response.blob();
-  
-    // Convert Blob to Buffer
+    // Get the array buffer directly
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-
   
     // Define the directory to save images
+    // Get the directory name of the current module
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
     const imageDir = path.resolve(__dirname, "../../generated_images");
   
     // Ensure the directory exists

@@ -3,6 +3,7 @@ import { runLLM } from './src/llm'
 import { addMessages, getMessages } from './src/memory'
 import { runAgent } from './src/agent'
 import { z } from 'zod'
+import { tools } from './src/tools'
 
 const userMessage = process.argv[2]
 
@@ -11,17 +12,9 @@ if (!userMessage) {
   process.exit(1)
 }
 
-const weatherTool = { // a demo tool, not interacting with any external API
-  name: 'get_weather',
-  parameters: z.object({ // parameters are inputs required by the tool
-    reasoning: z.string().describe('Why did you pick this tool?'), // so that i response we can know why ai used this tool // the sample response is given below-
-  }),
-  description: 'use this tool to get the wheather of outside area'
-}
+await runAgent({userMessage, tools})
 
-const response = await runAgent({userMessage, tools: [weatherTool]})
-
-console.log(response);
+// console.log(response);
 
 // sample response-
 // {

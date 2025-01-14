@@ -1,6 +1,7 @@
 import OpenAI from "openai";
-
-const getWeather = () => `Hot, it's 90 deg`;
+import { imageGenerator, imageGeneratorDefinition } from "./tools/imageGeneration.tool";
+import { jokes, jokeToolDefination } from "./tools/jokes.tool";
+import { reddit, redditToolDefinition } from "./tools/reddit.tool";
 
 
 export const runTool = async(
@@ -13,9 +14,13 @@ export const runTool = async(
     }
 
     switch (toolCall.function.name) {
-        case "get_weather":
-            return getWeather();
+        case imageGeneratorDefinition.name:
+            return imageGenerator(input);
+        case jokeToolDefination.name:
+            return jokes(input);
+        case redditToolDefinition.name:
+            return reddit(input);
         default:
-            throw new Error(`Tool not supported: ${toolCall.function.name}`);
+            return `Never run this tool: ${toolCall.function.name} again`;
     }
 }
